@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class ProvisionServer extends Controller
+{
+    /**
+     * Handle the incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+
+    public function __construct(){
+        
+        $this->middleware(function ($request, $next) {
+            return $next($request);
+        });
+    }
+    public function __invoke(Request $request)
+    {
+        //
+    }
+}
