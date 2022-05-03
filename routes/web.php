@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use App\Http\Controllers\PhotoCommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +17,10 @@ use Illuminate\Http\Request;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/home', function () {
+    return response('Hello World', 200)
+                  ->header('Content-Type', 'text/plain');
+});
 
 Route::get('/', function () {
     return view('welcome');
@@ -25,12 +30,17 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::get('/cache', function () {
+Route::get('/cache', function (Request $request) {
+    dd($request->old('name'));
     return Cache::get('key');
 });
 
-Route::get('/greeting', function () {
-    return 'Hello World';
+Route::get('/greeting', function (Request $request) {
+    // $value = $request->header('X-Header-Name');
+    $request->input('name', 'Sally');
+    $request->flash();
+    return response()->caps('foo');
+    // return redirect('/cache')->withInput();
 });
 
 Route::get('user', [UserController::class, 'index']);
@@ -44,11 +54,8 @@ Route::get('/user/{id}/{name}', function ($id, $name) {
 })->whereNumber('id')->whereAlpha('name')->name('test');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/', function () {
-        //
-    });
-
     Route::get('/user/{id}/{name}', function () {
+
     });
 });
 
@@ -61,3 +68,7 @@ Route::prefix('admin')->group(function () {
 });
 
 Route::resource('photos', PhotoController::class);
+
+Route::resource('photos.comments', PhotoCommentController::class);
+
+Route::apiResource('photos', PhotoController::class);
