@@ -23,12 +23,13 @@ Route::get('/home', function () {
 });
 
 Route::get('/', function () {
-    return view('welcome');
+    $a = 123;
+    return view('welcome',['test' => $a]);
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+    return view('home');
+})->middleware(['auth'])->name('home');
 
 Route::get('/cache', function (Request $request) {
     dd($request->old('name'));
@@ -72,3 +73,7 @@ Route::resource('photos', PhotoController::class);
 Route::resource('photos.comments', PhotoCommentController::class);
 
 Route::apiResource('photos', PhotoController::class);
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
