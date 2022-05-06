@@ -24,8 +24,13 @@ Route::get('/home', function () {
 
 Route::get('/', function () {
     $a = 123;
-    return view('welcome',['test' => $a]);
+    return view('welcome', ['test' => $a]);
 });
+
+Route::get('/map', function () {
+    return view('map');
+});
+
 
 Route::get('/dashboard', function () {
     return view('home');
@@ -56,7 +61,6 @@ Route::get('/user/{id}/{name}', function ($id, $name) {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/user/{id}/{name}', function () {
-
     });
 });
 

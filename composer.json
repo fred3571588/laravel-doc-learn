@@ -13,6 +13,8 @@
         "laravel/sanctum": "^2.8",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
+        "larswiegers/laravel-maps": "^0.12.0",
+        "spatie/laravel-activitylog": "^3.17",
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {
