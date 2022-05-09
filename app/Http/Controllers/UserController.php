@@ -12,4 +12,10 @@ class UserController extends Controller
         # code...
         return view('welcome');
     }
+
+    public function show(Request $request)
+    {
+        $value = $request->session()->get('key','default');
+        dd($value);
+    }
 }

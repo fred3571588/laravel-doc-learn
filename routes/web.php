@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\PhotoCommentController;
+use Illuminate\Support\Facades\URL;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,8 +38,13 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('home');
 
 Route::get('/cache', function (Request $request) {
-    dd($request->old('name'));
-    return Cache::get('key');
+    // dd($request->old('name'));
+    // return Cache::get('key');
+    dd(URL::temporarySignedRoute(
+        'unsubscribe',
+        now()->addMinutes(30),
+        ['user' => 1]
+    ));
 });
 
 Route::get('/greeting', function (Request $request) {
@@ -50,6 +56,8 @@ Route::get('/greeting', function (Request $request) {
 });
 
 Route::get('user', [UserController::class, 'index']);
+
+Route::get('/user/session', [UserController::class, 'show']);
 
 require __DIR__.'/auth.php';
 
@@ -81,3 +89,11 @@ Route::apiResource('photos', PhotoController::class);
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/session/test', function (Request $request) {
+    session(['key' => 'value','password' => 123 ]);
+    $request->session()->increment('password', $incrementBy = 2);
+
+    $data = $request->session()->all();
+    dd($data);
+});
